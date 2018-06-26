@@ -21,6 +21,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class ProdutoView extends JFrame {
 
@@ -73,6 +75,28 @@ public class ProdutoView extends JFrame {
 		tblListarProdutos = new JTable();
 		tblListarProdutos.setModel(pd.listarProdutos());
 		scrollPane.setViewportView(tblListarProdutos);
+		
+		//Ação do mouse - Clique
+		tblListarProdutos.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				
+				//Obter a linha selecionada
+				int linhaSelecionada = tblListarProdutos.getSelectedRow();
+				
+				//Obter o idProduto
+				int idProduto = (int) tblListarProdutos.getValueAt(linhaSelecionada, 0);
+				
+				//Fechar formulario
+				dispose();
+				
+				//Abrir o formulario para alterar/excluir
+				AlterarProdutoView apv = new AlterarProdutoView(idProduto);
+				apv.setVisible(true);
+				
+				
+			}
+		});
 		
 		//Botão cadastrar
 		JButton btnCadastrar = new JButton("Cadastrar");
